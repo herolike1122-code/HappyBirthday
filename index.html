@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical Birthday Card Creator ✨ การ์ดอวยพรวันเกิดสุดพิเศษ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Prompt, Mali, Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Typography & Base Setup */
+        body {
+            font-family: 'Prompt', sans-serif;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .font-handwriting {
+            font-family: 'Mali', cursive;
+        }
+        .font-luxury {
+            font-family: 'Playfair Display', 'Prompt', serif;
+        }
+
+        /* Theme Backgrounds & Palettes */
+        .theme-pastel {
+            background: linear-gradient(135deg, #fdf2f8 0%, #f3e8ff 50%, #e0f2fe 100%);
+            color: #4c1d95;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(244, 114, 182, 0.4);
+            --accent: #ec4899;
+            --accent-secondary: #8b5cf6;
+            --text-main: #3b0764;
+            --text-muted: #6b21a8;
+        }
+        .theme-luxury {
+            background: radial-gradient(circle at top, #1e1b4b 0%, #09090b 60%, #000000 100%);
+            color: #fef3c7;
+            --card-bg: rgba(24, 24, 27, 0.85);
+            --card-border: rgba(251, 191, 36, 0.5);
+            --accent: #f59e0b;
+            --accent-secondary: #fcd34d;
+            --text-main: #fef3c7;
+            --text-muted: #d97706;
+        }
+        .theme-pop {
+            background: linear-gradient(135deg, #fef08a 0%, #fed7aa 50%, #bae6fd 100%);
+            color: #1e293b;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(249, 115, 22, 0.5);
+            --accent: #f97316;
+            --accent-secondary: #0ea5e9;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+        }
+        .theme-cosmic {
+            background: radial-gradient(ellipse at bottom, #311042 0%, #13072e 50%, #050214 100%);
+            color: #e9d5ff;
+            --card-bg: rgba(30, 16, 66, 0.82);
+            --card-border: rgba(192, 132, 252, 0.45);
+            --accent: #c084fc;
+            --accent-secondary: #38bdf8;
+            --text-main: #f3e8ff;
+            --text-muted: #c4b5fd;
+        }
+
+        /* Glassmorphism Card */
+        .glass-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid var(--card-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Interactive Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-14px) rotate(2deg); }
+        }
+        @keyframes wobbleGift {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            15% { transform: rotate(-6deg) scale(1.04); }
+            30% { transform: rotate(6deg) scale(1.06); }
+            45% { transform: rotate(-4deg) scale(1.04); }
+            60% { transform: rotate(4deg) scale(1.02); }
+            75% { transform: rotate(-2deg) scale(1.01); }
+        }
+        @keyframes pulseAura {
+            0%, 100% { opacity: 0.5; transform: scale(0.95); }
+            50% { opacity: 0.9; transform: scale(1.12); }
+        }
+        @keyframes flickerFlame {
+            0%, 100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+            25% { transform: scale(1.08, 0.94) rotate(3deg); opacity: 0.9; }
+            50% { transform: scale(0.95, 1.06) rotate(-1deg); opacity: 1; }
+            75% { transform: scale(1.04, 0.96) rotate(2deg); opacity: 0.95; }
+        }
+        @keyframes smokeRise {
+            0% { opacity: 0.8; transform: translateY(0) scale(0.6); }
+            100% { opacity: 0; transform: translateY(-55px) scale(1.8); }
+        }
+        @keyframes unboxBurst {
+            0% { transform: scale(0.3) translateY(30px); opacity: 0; }
+            70% { transform: scale(1.03) translateY(-5px); opacity: 1; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .animate-float {
+            animation: floatSlow 3.5s ease-in-out infinite;
+        }
+        .interactive-gift:hover .gift-visual,
+        .interactive-gift:active .gift-visual {
+            animation: wobbleGift 0.9s ease-in-out infinite;
+        }
+        .aura-glow {
+            animation: pulseAura 2.8s ease-in-out infinite;
+        }
+        .candle-flame {
+            transform-origin: bottom center;
+            animation: flickerFlame 0.6s ease-in-out infinite;
+        }
+        .smoke-puff {
+            animation: smokeRise 1.4s ease-out forwards;
+        }
+        .card-reveal-anim {
+            animation: unboxBurst 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Gift Lid & Envelope Flap Transitions */
+        .gift-lid {
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+            transform-origin: center bottom;
+        }
+        .opened .gift-lid {
+            transform: translateY(-90px) rotate(-22deg) scale(1.1);
+            opacity: 0;
+        }
+        .opened .gift-base {
+            transform: scale(0.85) translateY(20px);
+            opacity: 0;
+            transition: all 0.6s ease 0.15s;
+        }
+
+        .envelope-flap {
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top center;
+        }
+        .opened .envelope-flap {
+            transform: rotateX(180deg);
+        }
+        .opened .envelope-letter {
+            transform: translateY(-65px);
+            transition: transform 0.7s ease 0.25s;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.5);
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="theme-pastel min-h-screen transition-colors duration-700 relative">
+
+    <!-- Fullscreen Effects Canvas (Confetti, Fireworks, Balloons, Sparkles) -->
+    <canvas id="fxCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-40"></canvas>
+
+    <!-- Floating Audio Control & Mode Switcher Bar -->
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+        <button id="soundToggleBtn" onclick="toggleAudio()" title="เปิด/ปิดเสียงดนตรี"
+            class="glass-panel px-3.5 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 hover:scale-105 active:scale-95 transition shadow-lg cursor-pointer">
+            <i id="soundIcon" class="fa-solid fa-volume-high text-pink-500"></i>
+            <span id="soundLabel" class="hidden sm:inline">เสียงเปิดอยู่</span>
+        </button>
+    </div>
+
+    <!-- Custom Toast Notification (No alert() allowed) -->
+    <div id="toastContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-2 w-11/12 max-w-md"></div>
+
+    <!-- ===================================================================== -->
+    <!-- 1. CREATOR MODE (โหมดผู้สร้างการ์ด)                                    -->
+    <!-- ===================================================================== -->
+    <main id="creatorMode" class="relative z-20 max-w-6xl mx-auto px-4 py-8 sm:py-12">
+        <!-- Header -->
+        <header class="text-center mb-8 sm:mb-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-xs sm:text-sm font-semibold mb-3 shadow-sm">
+                <span>✨ Magical Birthday Studio</span>
+                <span class="opacity-50">|</span>
+                <span>สร้างการ์ดอวยพรสุดล้ำ</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-bold tracking-tight mb-2">
+                ออกแบบการ์ดอวยพรวันเกิด<span class="text-pink-500">สุดพิเศษ</span>
+            </h1>
+            <p class="text-sm sm:text-base opacity-80 max-w-xl mx-auto">
+                เลือกกล่องของขวัญ ใส่เอฟเฟกต์อลังการ เขียนคำอวยพร แล้วสร้างลิงก์ส่งให้คนสำคัญเปิดเซอร์ไพรส์ได้เลย!
+            </p>
+        </header>
+
+        <!-- Main Grid: Form Controls (Left) & Live Preview + Share (Right) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+            
+            <!-- Left Column: Customization Form (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Step 1: Names -->
+                <section class="glass-panel rounded-3xl p-5 sm:p-6">
+                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-full bg-pink-500 text-white text-sm flex items-center justify-center">1</span>
+                        ระบุชื่อผู้รับและผู้ส่ง
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider opacity-75 mb-1.5">ถึง (ชื่อเจ้าของวันเกิด) *</label>
+                            <input type="text" id="inputRecipient" placeholder="เช่น น้องมิ้นท์, พี่บอส, ที่รัก..." value="คนพิเศษของฉัน"
+                                oninput="updateStateFromForm()"
+                                class="w-full px-4 py-3 rounded-2xl bg-white/70 dark:bg-black/20 border border-current/15 focus:outline-none focus:ring-2 focus:ring-pink-400 transition text-base">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider opacity-75 mb-1.5">จาก (ชื่อของคุณ) *</label>
+                            <input type="text" id="inputSender" placeholder="เช่น เพื่อนซี้, แฟนสุดน่ารัก..." value="คนที่หวังดีเสมอ"
+                                oninput="updateStateFromForm()"
+                                class="w-full px-4 py-3 rounded-2xl bg-white/70 dark:bg-black/20 border border-current/15 focus:outline-none focus:ring-2 focus:ring-pink-400 transition text-base">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Step 2: Gift Box / Interactive Container Style -->
+                <section class="glass-panel rounded-3xl p-5 sm:p-6">
+                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-full bg-pink-500 text-white text-sm flex items-center justify-center">2</span>
+                        เลือกรูปแบบกล่องเซอร์ไพรส์ก่อนเปิด
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button type="button" onclick="selectGiftType('box')" id="btn-gift-box"
+                            class="gift-choice-btn p-4 rounded-2xl border-2 border-pink-500 bg-pink-500/10 flex flex-col items-center text-center gap-2 transition hover:scale-[1.02] cursor-pointer">
+                            <span class="text-3xl">🎁</span>
+                            <div class="font-bold text-sm">กล่องของขวัญ 3D</div>
+                            <div class="text-xs opacity-75">เขย่าดุ๊กดิ๊ก เปิดฝาพุ่ง</div>
+                        </button>
+                        <button type="button" onclick="selectGiftType('envelope')" id="btn-gift-envelope"
+                            class="gift-choice-btn p-4 rounded-2xl border-2 border-transparent bg-white/40 dark:bg-white/5 flex flex-col items-center text-center gap-2 transition hover:scale-[1.02] cursor-pointer">
+                            <span class="text-3xl">💌</span>
+                            <div class="font-bold text-sm">ซองจดหมายเวทมนตร์</div>
+                            <div class="text-xs opacity-75">ตราประทับครั่งเรืองแสง</div>
+                        </button>
+                        <button type="button" onclick="selectGiftType('cake')" id="btn-gift-cake"
+                            class="gift-choice-btn p-4 rounded-2xl border-2 border-transparent bg-white/40 dark:bg-white/5 flex flex-col items-center text-center gap-2 transition hover:scale-[1.02] cursor-pointer">
+                            <span class="text-3xl">🎂</span>
+                            <div class="font-bold text-sm">เค้กวันเกิดเป่าเทียน</div>
+                            <div class="text-xs opacity-75">แตะเป่าเทียนให้ควันลอย</div>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Step 3: Theme Presets -->
+                <section class="glass-panel rounded-3xl p-5 sm:p-6">
+                    <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-full bg-pink-500 text-white text-sm flex items-center justify-center">3</span>
+                        เลือกธีมบรรยากาศและโทนสี
+                    </h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <button type="button" onclick="selectTheme('pastel')" id="btn-theme-pastel"
+                            class="theme-choice-btn p-3 rounded-2xl border-2 border-pink-500 bg-white/60 text-purple-950 flex flex-col items-center gap-2 transition hover:scale-105 cursor-pointer">
+                            <div class="w-full h-8 rounded-xl bg-gradient-to-r from-pink-300 via-purple-300 to-sky-300 shadow-inner"></div>
+                            <span class="text-xs font-bold">หวานละมุนพาสเทล</span>
+                        </button>
+                        <button type="button" onclick="selectTheme('luxury')" id="btn-theme-luxury"
+                            class="theme-choice-btn p-3 rounded-2xl border-2 border-transparent bg-zinc-900 text-amber-300 flex flex-col items-center gap-2 transition hover:scale-105 cursor-pointer">
+                            <div class="w-full h-8 rounded-xl bg-gradient-to-r from-zinc-900 via-amber-500 to-zinc-900 shadow-inner"></div>
+                            <span class="text-xs font-bold">หรูหราปาร์ตี้ทอง</span>
+                        </button>
+                        <button type="button" onclick="selectTheme('pop')" id="btn-theme-pop"
+                            class="theme-choice-btn p-3 rounded-2xl border-2 border-transparent bg-amber-100 text-slate-900 flex flex-col items-center gap-2 transition hover:scale-105 cursor-pointer">
+                            <div class="w-full h-8 rounded-xl bg-gradient-to-r from-yellow-400 via-orange-400 to-sky-400 shadow-inner"></div>
+                            <span class="text-xs font-bold">สดใสคัลเลอร์ฟูล</span>
+                        </button>
+                        <button type="button" onclick="selectTheme('cosmic')" id="btn-theme-cosmic"
+                            class="theme-choice-btn p-3 rounded-2xl border-2 border-transparent bg-indigo-950 text-purple-200 flex flex-col items-center gap-2 transition hover:scale-105 cursor-pointer">
+                            <div class="w-full h-8 rounded-xl bg-gradient-to-r from-purple-900 via-fuchsia-600 to-indigo-900 shadow-inner"></div>
+                            <span class="text-xs font-bold">น่ารักกาแล็กซี</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Step 4: Special Effects Multi-Select -->
+                <section class="glass-panel rounded-3xl p-5 sm:p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-bold flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-full bg-pink-500 text-white text-sm flex items-center justify-center">4</span>
+                            เลือกเอฟเฟกต์ตอนเปิดกล่อง (เลือกได้หลายอย่าง)
+                        </h2>
+                        <button type="button" onclick="previewBurstEffects()" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-pink-500/15 text-pink-600 dark:text-pink-300 hover:bg-pink-500/25 transition cursor-pointer">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>ลองยิงเอฟเฟกต์
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="flex items-center gap-3 p-3.5 rounded-2xl bg-white/40 dark:bg-white/5 border border-current/10 cursor-pointer hover:bg-white/60 transition">
+                            <input type="checkbox" id="fx-confetti" checked onchange="updateStateFromForm()" class="w-5 h-5 accent-pink-500 rounded">
+                            <div>
+                                <div class="font-semibold text-sm">🎊 พลุกระดาษโปรย (Confetti)</div>
+                                <div class="text-xs opacity-70">กระดาษสีสันปลิวว่อนทั่วหน้าจอ</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-3.5 rounded-2xl bg-white/40 dark:bg-white/5 border border-current/10 cursor-pointer hover:bg-white/60 transition">
+                            <input type="checkbox" id="fx-fireworks" checked onchange="updateStateFromForm()" class="w-5 h-5 accent-pink-500 rounded">
+                            <div>
+                                <div class="font-semibold text-sm">🎆 ดอกไม้ไฟฉลอง (Fireworks)</div>
+                                <div class="text-xs opacity-70">ยิงขึ้นฟ้าและแตกประกายสวยงาม</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-3.5 rounded-2xl bg-white/40 dark:bg-white/5 border border-current/10 cursor-pointer hover:bg-white/60 transition">
+                            <input type="checkbox" id="fx-balloons" checked onchange="updateStateFromForm()" class="w-5 h-5 accent-pink-500 rounded">
+                            <div>
+                                <div class="font-semibold text-sm">🎈 ลูกโป่งลอยจิ้มแตกได้</div>
+                                <div class="text-xs opacity-70">ลอยขึ้นฟ้า แตะให้แตกดังป๊อป!</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-3.5 rounded-2xl bg-white/40 dark:bg-white/5 border border-current/10 cursor-pointer hover:bg-white/60 transition">
+                            <input type="checkbox" id="fx-sparkles" checked onchange="updateStateFromForm()" class="w-5 h-5 accent-pink-500 rounded">
+                            <div>
+                                <div class="font-semibold text-sm">🌠 ดาวตกและประกายวิบวับ</div>
+                                <div class="text-xs opacity-70">ละอองเวทมนตร์และดาวตกพาดผ่าน</div>
+                            </div>
+                        </label>
+                        <label class="sm:col-span-2 flex items-center gap-3 p-3.5 rounded-2xl bg-white/40 dark:bg-white/5 border border-current/10 cursor-pointer hover:bg-white/60 transition">
+                            <input type="checkbox" id="fx-music" checked onchange="updateStateFromForm()" class="w-5 h-5 accent-pink-500 rounded">
+                            <div>
+                                <div class="font-semibold text-sm">🎵 เสียงดนตรีกล่องเพลง Happy Birthday</div>
+                                <div class="text-xs opacity-70">บรรเลงทำนองกล่องดนตรีอัตโนมัติทันทีที่เปิดของขวัญ</div>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Step 5: Greeting Message & Presets -->
+                <section class="glass-panel rounded-3xl p-5 sm:p-6">
+                    <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-full bg-pink-500 text-white text-sm flex items-center justify-center">5</span>
+                        เขียนคำอวยพร (หรือกดสุ่มคำอวยพรด้านล่าง)
+                    </h2>
+                    
+                    <!-- Preset Category Buttons -->
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <button type="button" onclick="applyRandomWish('sweet')" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-pink-500/15 hover:bg-pink-500/25 border border-pink-500/30 transition cursor-pointer">
+                            💖 สุ่มคำอวยพรซึ้งกินใจ
+                        </button>
+                        <button type="button" onclick="applyRandomWish('funny')" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 transition cursor-pointer">
+                            😂 สุ่มคำอวยพรกวนๆ ฮาๆ
+                        </button>
+                        <button type="button" onclick="applyRandomWish('lover')" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 transition cursor-pointer">
+                            🥰 อวยพรแฟน / คนพิเศษ
+                        </button>
+                        <button type="button" onclick="applyRandomWish('polite')" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/30 transition cursor-pointer">
+                            🙏 อวยพรเพื่อน / ผู้ใหญ่
+                        </button>
+                    </div>
+
+                    <textarea id="inputMessage" rows="4" placeholder="พิมพ์ข้อความอวยพรวันเกิดสุดประทับใจที่นี่..."
+                        oninput="updateStateFromForm()"
+                        class="w-full p-4 rounded-2xl bg-white/70 dark:bg-black/20 border border-current/15 focus:outline-none focus:ring-2 focus:ring-pink-400 transition text-base font-handwriting leading-relaxed">สุขสันต์วันเกิดนะ! ขอให้ปีนี้เป็นปีที่เต็มไปด้วยรอยยิ้ม เสียงหัวเราะ และความสุขในทุกๆ วัน คิดหวังสิ่งใดขอให้สมปรารถนา สุขภาพแข็งแรง และมีแต่เรื่องราวดีๆ เข้ามาในชีวิตเสมอเลยนะ 🎂✨</textarea>
+                </section>
+            </div>
+
+            <!-- Right Column: Live Interactive Preview & Link Generator (5 cols) -->
+            <div class="lg:col-span-5 lg:sticky lg:top-6 space-y-6">
+                
+                <!-- Live Preview Box -->
+                <div class="glass-panel rounded-3xl p-6 text-center relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-current/10">
+                            <i class="fa-solid fa-eye mr-1"></i> ตัวอย่างกล่องของขวัญ
+                        </span>
+                        <button type="button" onclick="enterReceiverMode(true)"
+                            class="text-xs font-bold px-3.5 py-1.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow hover:opacity-95 active:scale-95 transition cursor-pointer">
+                            <i class="fa-solid fa-play mr-1"></i> ทดลองเปิดแบบผู้รับจริง
+                        </button>
+                    </div>
+
+                    <p class="text-sm opacity-80 mb-1">มีกล่องของขวัญพิเศษส่งถึง</p>
+                    <h3 id="previewRecipientName" class="text-2xl font-bold mb-4 text-pink-500">คนพิเศษของฉัน</h3>
+
+                    <!-- Miniature Interactive Gift Graphic -->
+                    <div onclick="enterReceiverMode(true)" class="interactive-gift relative w-48 h-48 mx-auto my-2 flex items-center justify-center cursor-pointer group" title="คลิกเพื่อจำลองการเปิดของขวัญ">
+                        <div class="aura-glow absolute inset-2 rounded-full bg-gradient-to-tr from-pink-400/40 via-amber-300/40 to-purple-500/40 blur-xl"></div>
+                        <div id="creatorPreviewVisual" class="gift-visual animate-float relative z-10 w-40 h-40 flex items-center justify-center">
+                            <!-- Injected dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <p class="text-xs opacity-75 mt-2">
+                        <i class="fa-solid fa-hand-pointer mr-1 animate-bounce"></i> แตะที่รูปเพื่อทดสอบมุมมองผู้รับ
+                    </p>
+                </div>
+
+                <!-- Shareable Link Generator Card -->
+                <div class="glass-panel rounded-3xl p-6 border-2 border-pink-500/40">
+                    <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane text-pink-500"></i>
+                        สร้างลิงก์ส่งให้คนพิเศษ
+                    </h3>
+                    <p class="text-xs opacity-80 mb-4 leading-relaxed">
+                        ข้อมูลทั้งหมดจะถูกฝังไว้ในลิงก์นี้ เมื่อผู้รับเปิดลิงก์จะเห็นกล่องของขวัญและเอฟเฟกต์ที่คุณตั้งค่าไว้ทันที!
+                    </p>
+
+                    <button type="button" onclick="generateShareLink()"
+                        class="w-full py-3.5 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 shadow-lg shadow-pink-500/30 hover:shadow-xl hover:scale-[1.01] active:scale-95 transition flex items-center justify-center gap-2 text-base cursor-pointer">
+                        <i class="fa-solid fa-link"></i>
+                        <span>สร้างลิงก์การ์ดอวยพร</span>
+                    </button>
+
+                    <!-- Generated Link Output Area -->
+                    <div id="shareResultBox" class="hidden mt-4 pt-4 border-t border-current/15 space-y-3">
+                        <label class="block text-xs font-semibold opacity-75">ลิงก์พร้อมส่ง (คัดลอกส่งทาง LINE / Messenger ได้เลย):</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="shareUrlInput" readonly
+                                class="w-full px-3.5 py-2.5 rounded-xl bg-white/80 dark:bg-black/30 border border-current/20 text-xs font-mono select-all focus:outline-none">
+                            <button type="button" onclick="copyShareLink()"
+                                class="shrink-0 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs shadow transition active:scale-95 flex items-center gap-1.5 cursor-pointer">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>คัดลอก</span>
+                            </button>
+                        </div>
+                        <div class="flex justify-between items-center pt-1">
+                            <button type="button" onclick="enterReceiverMode(true)"
+                                class="text-xs font-semibold underline text-pink-600 dark:text-pink-300 hover:opacity-80 cursor-pointer">
+                                เปิดดูหน้าจอลิงก์นี้ในมุมมองผู้รับ →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- 2. RECEIVER MODE (โหมดผู้รับ - แสดงกล่องของขวัญและหน้าการ์ดอวยพร)       -->
+    <!-- ===================================================================== -->
+    <section id="receiverMode" class="hidden relative z-20 min-h-screen flex flex-col items-center justify-center px-4 py-10">
+        
+        <!-- Preview Banner (Shown only when Creator is testing) -->
+        <div id="testModeBanner" class="hidden fixed top-4 left-4 z-50">
+            <button type="button" onclick="exitReceiverMode()"
+                class="glass-panel px-4 py-2 rounded-full text-xs sm:text-sm font-bold flex items-center gap-2 hover:scale-105 active:scale-95 transition shadow-lg cursor-pointer">
+                <i class="fa-solid fa-arrow-left text-pink-500"></i>
+                <span>กลับไปแก้ไขการ์ด</span>
+            </button>
+        </div>
+
+        <!-- Stage 1: Closed Gift / Envelope / Cake Waiting to be Opened -->
+        <div id="unboxStage" class="w-full max-w-lg mx-auto text-center flex flex-col items-center">
+            <div class="inline-block px-4 py-1.5 rounded-full glass-panel text-xs sm:text-sm font-semibold mb-4 animate-bounce">
+                ✨ Special Delivery For You ✨
+            </div>
+
+            <h1 class="text-2xl sm:text-4xl font-bold mb-2 leading-snug">
+                มีของขวัญสุดพิเศษส่งถึง<br>
+                <span id="recStageRecipient" class="text-3xl sm:text-5xl text-pink-500 block mt-1">คุณคนพิเศษ</span>
+            </h1>
+
+            <p class="text-sm sm:text-base opacity-80 mb-6">
+                จาก: <span id="recStageSender" class="font-semibold">เพื่อนของคุณ</span>
+            </p>
+
+            <!-- Interactive Centerpiece -->
+            <div id="interactiveTarget" onclick="handleUnboxInteraction()"
+                class="interactive-gift relative w-64 h-64 sm:w-72 sm:h-72 mx-auto my-2 flex items-center justify-center cursor-pointer">
+                <!-- Glowing Aura -->
+                <div class="aura-glow absolute inset-4 rounded-full bg-gradient-to-tr from-pink-500/40 via-amber-300/40 to-purple-500/40 blur-2xl"></div>
+                
+                <!-- Dynamic SVG Graphic Container -->
+                <div id="receiverGiftVisual" class="gift-visual animate-float relative z-10 w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Action Instruction Pill -->
+            <button type="button" onclick="handleUnboxInteraction()" id="unboxInstructionBtn"
+                class="mt-6 px-6 py-3 rounded-full glass-panel font-bold text-sm sm:text-base shadow-lg hover:scale-105 active:scale-95 transition flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-sparkles text-amber-400"></i>
+                <span id="unboxInstructionText">แตะที่กล่องของขวัญเพื่อเปิดเลย!</span>
+            </button>
+        </div>
+
+        <!-- Stage 2: Opened Greeting Card Reveal -->
+        <div id="cardRevealStage" class="hidden w-full max-w-xl mx-auto">
+            <div class="glass-panel rounded-[2rem] p-6 sm:p-10 text-center relative overflow-hidden card-reveal-anim">
+                <!-- Decorative Corner Sparkles -->
+                <div class="absolute -top-10 -left-10 w-32 h-32 rounded-full bg-pink-400/20 blur-2xl pointer-events-none"></div>
+                <div class="absolute -bottom-10 -right-10 w-32 h-32 rounded-full bg-purple-400/20 blur-2xl pointer-events-none"></div>
+
+                <div class="text-4xl sm:text-5xl mb-3 animate-bounce">🎂🎉</div>
+                
+                <div class="font-luxury text-xs sm:text-sm uppercase tracking-[0.25em] opacity-75 mb-1">
+                    Happy Birthday
+                </div>
+                
+                <h2 id="cardRecipientTitle" class="text-2xl sm:text-4xl font-bold mb-6 text-pink-500">
+                    สุขสันต์วันเกิดนะ!
+                </h2>
+
+                <!-- Divider -->
+                <div class="w-24 h-1 mx-auto rounded-full bg-gradient-to-r from-pink-400 via-amber-400 to-purple-500 mb-6 opacity-80"></div>
+
+                <!-- Animated Message Container -->
+                <div id="cardMessageBody" class="font-handwriting text-lg sm:text-xl leading-relaxed whitespace-pre-line min-h-[110px] mb-8 px-2">
+                    <!-- Text reveals smoothly -->
+                </div>
+
+                <!-- Sender Sign-off -->
+                <div class="pt-4 border-t border-current/15 flex flex-col items-center">
+                    <span class="text-xs uppercase tracking-wider opacity-60 mb-1">ด้วยรักและคำอวยพรจาก</span>
+                    <span id="cardSenderSign" class="text-lg sm:text-xl font-bold text-pink-500">
+                        ผู้ส่ง
+                    </span>
+                </div>
+
+                <!-- Replay Effects Button -->
+                <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+                    <button type="button" onclick="triggerCelebrationEffects()"
+                        class="px-4 py-2 rounded-full bg-pink-500/15 hover:bg-pink-500/25 border border-pink-500/30 text-xs sm:text-sm font-semibold transition active:scale-95 cursor-pointer">
+                        🎆 จุดพลุและปล่อยลูกโป่งอีกรอบ!
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer CTA to create own card -->
+            <div class="text-center mt-8">
+                <button type="button" onclick="switchToCreatorFromReceiver()"
+                    class="glass-panel px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold opacity-90 hover:opacity-100 hover:scale-105 transition inline-flex items-center gap-2 cursor-pointer">
+                    <span>✨ สร้างการ์ดอวยพรส่งต่อให้คนอื่นบ้าง</span>
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <script>
+        /* =========================================================================
+           1. APPLICATION STATE & PRESET DATA
+           ========================================================================= */
+        const state = {
+            recipient: 'คนพิเศษของฉัน',
+            sender: 'คนที่หวังดีเสมอ',
+            giftType: 'box', // 'box' | 'envelope' | 'cake'
+            theme: 'pastel', // 'pastel' | 'luxury' | 'pop' | 'cosmic'
+            effects: {
+                confetti: true,
+                fireworks: true,
+                balloons: true,
+                sparkles: true,
+                music: true
+            },
+            message: 'สุขสันต์วันเกิดนะ! ขอให้ปีนี้เป็นปีที่เต็มไปด้วยรอยยิ้ม เสียงหัวเราะ และความสุขในทุกๆ วัน คิดหวังสิ่งใดขอให้สมปรารถนา สุขภาพแข็งแรง และมีแต่เรื่องราวดีๆ เข้ามาในชีวิตเสมอเลยนะ 🎂✨'
+        };
+
+        const wishPresets = {
+            sweet: [
+                "สุขสันต์วันเกิดนะ! ขอให้ทุกก้าวที่เดินเต็มไปด้วยความสุข มีรอยยิ้มที่สดใสในทุกๆ เช้า และรายล้อมไปด้วยคนที่รักและหวังดีเสมอ 🎂💖",
+                "Happy Birthday! ขอให้ปีนี้เป็นปีที่ใจดีกับเธอมากๆ อะไรที่เคยเหนื่อยขอให้หายไป แทนที่ด้วยความสำเร็จและความสบายใจในทุกเรื่องเลยนะ ✨🌸",
+                "วันเกิดปีนี้ ขอให้เธอมีความสุขในแบบที่เธอชอบ ได้ทำในสิ่งที่รัก และภูมิใจในตัวเองในทุกๆ วัน สุขสันต์วันเกิดนะคนเก่ง! 🎉💫"
+            ],
+            funny: [
+                "สุขสันต์วันเกิดนะ! แก่ขึ้นอีกปีแล้ว แต่ความหน้าเด็ก (และเงินในบัญชี) ขอให้สวนทางกับอายุนะ เฮงๆ รวยๆ เลี้ยงหมูกระทะด้วย! 🥓😂",
+                "HBD นะเพื่อนรัก! ขอให้อายุเป็นเพียงตัวเลข แต่ขอให้เลขในบัญชีพุ่งกระฉูด ปวดหลังน้อยลง นอนหลับสบาย ไม่ต้องปั่นงานดึก! 💸🤣",
+                "Happy Birthday! ปีนี้ขอให้ไม่นก ไม่เท ไม่เปย์ใครฟรีๆ ขอให้มีแต่คนดีๆ เข้ามา และอย่าลืมแบ่งเค้กมาทางนี้ด้วยนะ! 🎂😜"
+            ],
+            lover: [
+                "สุขสันต์วันเกิดนะคนพิเศษของเค้า ขอบคุณที่เกิดมาเป็นความสุขและรอยยิ้มให้กันในทุกๆ วัน ขอให้อยู่ฉลองวันเกิดด้วยกันแบบนี้ไปอีกนานแสนนานเลยนะ ❤️🥰",
+                "Happy Birthday ที่รัก! ปีนี้และปีต่อๆ ไป เค้าจะคอยอยู่ข้างๆ คอยซัพพอร์ตและดูแลเธอแบบนี้เสมอ ขอให้เธอมีความสุขที่สุดในโลกเลยนะ 💕🎂",
+                "สุขสันต์วันเกิดนะจ๊ะ ดีใจที่สุดเลยที่มีเธออยู่ในชีวิต ขอให้ทุกความฝันของเธอเป็นจริง โดยมีเค้าคอยจับมือเดินไปด้วยกันเสมอนะ 🌹✨"
+            ],
+            polite: [
+                "เนื่องในโอกาสวันคล้ายวันเกิด ขออาราธนาคุณพระศรีรัตนตรัยและสิ่งศักดิ์สิทธิ์ โปรดดลบันดาลให้ท่านมีสุขภาพพลานามัยแข็งแรง เจริญรุ่งเรืองในหน้าที่การงาน และมีความสุขสมปรารถนาทุกประการครับ/ค่ะ 🙏✨",
+                "สุขสันต์วันเกิดครับ/ค่ะ ขอให้ปีนี้เป็นปีแห่งความสำเร็จ การงานราบรื่น เงินทองไหลมาเทมา สุขภาพแข็งแรง และมีความสุขมากๆ นะครับ/คะ 🎉💐"
+            ]
+        };
+
+        let isReceiverMode = false;
+        let isOpened = false;
+        let candleBlown = false;
+        let soundEnabled = true;
+
+        /* =========================================================================
+           2. SVG GRAPHICS GENERATORS (Gift Box, Magic Envelope, Birthday Cake)
+           ========================================================================= */
+        function getInteractiveGraphicHTML(type, isBlown = false) {
+            if (type === 'box') {
+                return `
+                <svg viewBox="0 0 220 220" class="w-full h-full drop-shadow-2xl overflow-visible">
+                    <defs>
+                        <linearGradient id="boxBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#f43f5e"/>
+                            <stop offset="100%" stop-color="#be123c"/>
+                        </linearGradient>
+                        <linearGradient id="boxLidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fb7185"/>
+                            <stop offset="100%" stop-color="#e11d48"/>
+                        </linearGradient>
+                        <linearGradient id="ribbonGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#fde047"/>
+                            <stop offset="50%" stop-color="#f59e0b"/>
+                            <stop offset="100%" stop-color="#fde047"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Box Base -->
+                    <g class="gift-base">
+                        <rect x="42" y="92" width="136" height="102" rx="14" fill="url(#boxBodyGrad)"/>
+                        <rect x="42" y="92" width="136" height="16" fill="rgba(0,0,0,0.18)"/>
+                        <!-- Vertical Gold Ribbon -->
+                        <rect x="96" y="92" width="28" height="102" fill="url(#ribbonGold)"/>
+                    </g>
+                    <!-- Box Lid & Bow -->
+                    <g class="gift-lid">
+                        <rect x="32" y="64" width="156" height="32" rx="10" fill="url(#boxLidGrad)"/>
+                        <rect x="94" y="64" width="32" height="32" fill="url(#ribbonGold)"/>
+                        <!-- Ribbon Bow Loops -->
+                        <path d="M110 64 C75 20, 45 45, 95 64 Z" fill="url(#ribbonGold)" stroke="#d97706" stroke-width="2"/>
+                        <path d="M110 64 C145 20, 175 45, 125 64 Z" fill="url(#ribbonGold)" stroke="#d97706" stroke-width="2"/>
+                        <circle cx="110" cy="62" r="11" fill="#fbbf24" stroke="#b45309" stroke-width="2"/>
+                    </g>
+                </svg>`;
+            }
+
+            if (type === 'envelope') {
+                return `
+                <svg viewBox="0 0 220 220" class="w-full h-full drop-shadow-2xl overflow-visible">
+                    <defs>
+                        <linearGradient id="envBack" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fef3c7"/>
+                            <stop offset="100%" stop-color="#fde68a"/>
+                        </linearGradient>
+                        <linearGradient id="envFront" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#fffbeb"/>
+                            <stop offset="100%" stop-color="#fcd34d"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Envelope Back -->
+                    <rect x="25" y="55" width="170" height="115" rx="14" fill="url(#envBack)" stroke="#f59e0b" stroke-width="2"/>
+                    <!-- Inner Card Peeking Out -->
+                    <g class="envelope-letter">
+                        <rect x="40" y="65" width="140" height="90" rx="8" fill="#ffffff" stroke="#f472b6" stroke-width="2"/>
+                        <line x1="60" y1="88" x2="160" y2="88" stroke="#fbcfe8" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="60" y1="104" x2="140" y2="104" stroke="#fbcfe8" stroke-width="4" stroke-linecap="round"/>
+                        <text x="110" y="132" text-anchor="middle" font-size="18">💖</text>
+                    </g>
+                    <!-- Envelope Bottom & Side Flaps -->
+                    <path d="M25 65 L110 122 L195 65 L195 156 C195 164 189 170 181 170 L39 170 C31 170 25 164 25 156 Z" fill="url(#envFront)" stroke="#f59e0b" stroke-width="1.5"/>
+                    <!-- Top Flap & Wax Seal -->
+                    <g class="envelope-flap">
+                        <path d="M25 65 C25 58 31 55 39 55 L181 55 C189 55 195 58 195 65 L110 125 Z" fill="#fef08a" stroke="#f59e0b" stroke-width="2"/>
+                        <!-- Glowing Heart Wax Seal -->
+                        <circle cx="110" cy="112" r="20" fill="#e11d48" stroke="#fda4af" stroke-width="2.5"/>
+                        <path d="M110 121 C110 121 98 113 98 106 C98 102 101 99 105 99 C107.5 99 109.5 100.5 110 102 C110.5 100.5 112.5 99 115 99 C119 99 122 102 122 106 C122 113 110 121 110 121 Z" fill="#fff1f2"/>
+                    </g>
+                </svg>`;
+            }
+
+            if (type === 'cake') {
+                return `
+                <svg viewBox="0 0 220 220" class="w-full h-full drop-shadow-2xl overflow-visible">
+                    <!-- Cake Plate -->
+                    <ellipse cx="110" cy="188" rx="88" ry="14" fill="#e2e8f0"/>
+                    <!-- Bottom Cake Tier -->
+                    <rect x="42" y="132" width="136" height="52" rx="14" fill="#f472b6"/>
+                    <path d="M42 146 Q59 162 76 146 Q93 162 110 146 Q127 162 144 146 Q161 162 178 146 L178 138 C178 134 174 132 170 132 L50 132 C46 132 42 134 42 138 Z" fill="#fff1f2"/>
+                    <!-- Top Cake Tier -->
+                    <rect x="62" y="92" width="96" height="44" rx="12" fill="#fb7185"/>
+                    <path d="M62 104 Q78 118 94 104 Q110 118 126 104 Q142 118 158 104 L158 98 C158 94 154 92 150 92 L70 92 C66 92 62 94 62 98 Z" fill="#ffffff"/>
+                    <!-- Sprinkles -->
+                    <circle cx="80" cy="122" r="3" fill="#fde047"/>
+                    <circle cx="110" cy="125" r="3" fill="#38bdf8"/>
+                    <circle cx="140" cy="121" r="3" fill="#a78bfa"/>
+                    <circle cx="68" cy="168" r="3.5" fill="#fde047"/>
+                    <circle cx="110" cy="172" r="3.5" fill="#34d399"/>
+                    <circle cx="152" cy="166" r="3.5" fill="#38bdf8"/>
+                    <!-- Candle -->
+                    <rect x="103" y="54" width="14" height="38" rx="4" fill="#fef08a" stroke="#f59e0b" stroke-width="1.5"/>
+                    <line x1="103" y1="64" x2="117" y2="70" stroke="#f43f5e" stroke-width="3"/>
+                    <line x1="103" y1="76" x2="117" y2="82" stroke="#f43f5e" stroke-width="3"/>
+                    <!-- Wick -->
+                    <line x1="110" y1="47" x2="110" y2="54" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
+                    ${!isBlown ? `
+                        <!-- Glowing Flame -->
+                        <g class="candle-flame">
+                            <ellipse cx="110" cy="34" rx="12" ry="18" fill="rgba(251, 191, 36, 0.35)"/>
+                            <path d="M110 18 C119 30, 118 44, 110 46 C102 44, 101 30, 110 18 Z" fill="#f97316"/>
+                            <path d="M110 25 C115 33, 114 43, 110 44 C106 43, 105 33, 110 25 Z" fill="#fef08a"/>
+                        </g>
+                    ` : `
+                        <!-- Rising Smoke Puffs after blowing -->
+                        <g class="smoke-puff">
+                            <circle cx="110" cy="40" r="6" fill="rgba(203, 213, 225, 0.8)"/>
+                            <circle cx="104" cy="28" r="8" fill="rgba(203, 213, 225, 0.6)"/>
+                            <circle cx="114" cy="16" r="10" fill="rgba(203, 213, 225, 0.4)"/>
+                        </g>
+                    `}
+                </svg>`;
+            }
+            return '';
+        }
+
+        /* =========================================================================
+           3. CREATOR FORM & STATE MANAGEMENT
+           ========================================================================= */
+        function updateStateFromForm() {
+            state.recipient = document.getElementById('inputRecipient').value.trim() || 'คนพิเศษ';
+            state.sender = document.getElementById('inputSender').value.trim() || 'คนที่หวังดี';
+            state.message = document.getElementById('inputMessage').value;
+
+            state.effects.confetti = document.getElementById('fx-confetti').checked;
+            state.effects.fireworks = document.getElementById('fx-fireworks').checked;
+            state.effects.balloons = document.getElementById('fx-balloons').checked;
+            state.effects.sparkles = document.getElementById('fx-sparkles').checked;
+            state.effects.music = document.getElementById('fx-music').checked;
+
+            renderCreatorPreview();
+        }
+
+        function selectGiftType(type) {
+            state.giftType = type;
+            document.querySelectorAll('.gift-choice-btn').forEach(btn => {
+                btn.classList.remove('border-pink-500', 'bg-pink-500/10');
+                btn.classList.add('border-transparent');
+            });
+            const activeBtn = document.getElementById(`btn-gift-${type}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent');
+                activeBtn.classList.add('border-pink-500', 'bg-pink-500/10');
+            }
+            renderCreatorPreview();
+        }
+
+        function selectTheme(themeName) {
+            state.theme = themeName;
+            document.body.className = `theme-${themeName} min-h-screen transition-colors duration-700 relative`;
+
+            document.querySelectorAll('.theme-choice-btn').forEach(btn => {
+                btn.classList.remove('border-pink-500', 'ring-2', 'ring-pink-400');
+                btn.classList.add('border-transparent');
+            });
+            const activeBtn = document.getElementById(`btn-theme-${themeName}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent');
+                activeBtn.classList.add('border-pink-500', 'ring-2', 'ring-pink-400');
+            }
+        }
+
+        function applyRandomWish(category) {
+            const list = wishPresets[category] || wishPresets.sweet;
+            const currentText = document.getElementById('inputMessage').value;
+            let nextText = list[Math.floor(Math.random() * list.length)];
+            // Avoid repeating the exact same message if possible
+            if (list.length > 1 && nextText === currentText) {
+                nextText = list[(list.indexOf(nextText) + 1) % list.length];
+            }
+            document.getElementById('inputMessage').value = nextText;
+            updateStateFromForm();
+            showToast('เปลี่ยนคำอวยพรเรียบร้อยแล้ว ✨');
+        }
+
+        function renderCreatorPreview() {
+            document.getElementById('previewRecipientName').textContent = state.recipient;
+            document.getElementById('creatorPreviewVisual').innerHTML = getInteractiveGraphicHTML(state.giftType, false);
+        }
+
+        function previewBurstEffects() {
+            initAudioContext();
+            triggerCelebrationEffects();
+            showToast('ทดสอบยิงเอฟเฟกต์ตามที่คุณเลือก! 🎆');
+        }
+
+        /* =========================================================================
+           4. URL ENCODING & SHAREABLE LINK GENERATOR
+           ========================================================================= */
+        function encodePayload(obj) {
+            try {
+                const jsonStr = JSON.stringify(obj);
+                // UTF-8 safe Base64 encoding
+                const utf8Bytes = new TextEncoder().encode(jsonStr);
+                let binary = '';
+                utf8Bytes.forEach(b => binary += String.fromCharCode(b));
+                return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+            } catch (e) {
+                console.error('Encoding error:', e);
+                return '';
+            }
+        }
+
+        function decodePayload(encoded) {
+            try {
+                let base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+                while (base64.length % 4) base64 += '=';
+                const binary = atob(base64);
+                const bytes = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) {
+                    bytes[i] = binary.charCodeAt(i);
+                }
+                const jsonStr = new TextDecoder().decode(bytes);
+                return JSON.parse(jsonStr);
+            } catch (e) {
+                console.error('Decoding error:', e);
+                return null;
+            }
+        }
+
+        function generateShareLink() {
+            updateStateFromForm();
+            const compactData = {
+                r: state.recipient,
+                s: state.sender,
+                g: state.giftType,
+                t: state.theme,
+                m: state.message,
+                e: [
+                    state.effects.confetti ? 1 : 0,
+                    state.effects.fireworks ? 1 : 0,
+                    state.effects.balloons ? 1 : 0,
+                    state.effects.sparkles ? 1 : 0,
+                    state.effects.music ? 1 : 0
+                ]
+            };
+
+            const token = encodePayload(compactData);
+            const baseUrl = window.location.href.split('?')[0].split('#')[0];
+            const fullUrl = `${baseUrl}?data=${token}`;
+
+            const shareBox = document.getElementById('shareResultBox');
+            const shareInput = document.getElementById('shareUrlInput');
+            shareInput.value = fullUrl;
+            shareBox.classList.remove('hidden');
+
+            showToast('สร้างลิงก์การ์ดอวยพรสำเร็จ! คัดลอกส่งให้คนพิเศษได้เลย 🎁');
+        }
+
+        function copyShareLink() {
+            const shareInput = document.getElementById('shareUrlInput');
+            shareInput.select();
+            shareInput.setSelectionRange(0, 99999);
+
+            try {
+                document.execCommand('copy');
+                showToast('คัดลอกลิงก์ลงคลิปบอร์ดแล้ว! 📋✨');
+            } catch (err) {
+                showToast('กรุณากดคัดลอกลิงก์ในช่องข้อความด้วยตนเอง');
+            }
+        }
+
+        /* =========================================================================
+           5. RECEIVER MODE & UNBOXING SEQUENCE
+           ========================================================================= */
+        function enterReceiverMode(isTestPreview = false) {
+            if (isTestPreview) {
+                updateStateFromForm();
+            }
+
+            isReceiverMode = true;
+            isOpened = false;
+            candleBlown = false;
+
+            // Apply theme
+            selectTheme(state.theme);
+
+            // Toggle visibility
+            document.getElementById('creatorMode').classList.add('hidden');
+            document.getElementById('receiverMode').classList.remove('hidden');
+
+            const banner = document.getElementById('testModeBanner');
+            if (isTestPreview) {
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+
+            // Reset stages
+            document.getElementById('unboxStage').classList.remove('hidden');
+            document.getElementById('cardRevealStage').classList.add('hidden');
+
+            const targetEl = document.getElementById('interactiveTarget');
+            targetEl.classList.remove('opened');
+
+            // Populate receiver stage info
+            document.getElementById('recStageRecipient').textContent = state.recipient;
+            document.getElementById('recStageSender').textContent = state.sender;
+            document.getElementById('receiverGiftVisual').innerHTML = getInteractiveGraphicHTML(state.giftType, false);
+
+            // Set instruction text based on giftType
+            const instrText = document.getElementById('unboxInstructionText');
+            if (state.giftType === 'box') {
+                instrText.textContent = 'แตะที่กล่องของขวัญเพื่อเปิดเลย!';
+            } else if (state.giftType === 'envelope') {
+                instrText.textContent = 'แตะที่ซองจดหมายเพื่อแกะตราประทับ!';
+            } else if (state.giftType === 'cake') {
+                instrText.textContent = 'แตะที่เค้กเพื่อเป่าเทียนอธิษฐาน!';
+            }
+
+            // Start ambient sparkles if enabled
+            if (state.effects.sparkles) {
+                spawnAmbientSparkles(25);
+            }
+        }
+
+        function exitReceiverMode() {
+            isReceiverMode = false;
+            stopMusicBox();
+            document.getElementById('receiverMode').classList.add('hidden');
+            document.getElementById('creatorMode').classList.remove('hidden');
+        }
+
+        function switchToCreatorFromReceiver() {
+            stopMusicBox();
+            // Clear query param cleanly without full reload if possible
+            try {
+                const cleanUrl = window.location.href.split('?')[0];
+                window.history.replaceState({}, document.title, cleanUrl);
+            } catch (e) {}
+            exitReceiverMode();
+            showToast('ยินดีต้อนรับสู่โหมดสร้างการ์ด! ออกแบบการ์ดของคุณได้เลย 🎨');
+        }
+
+        function handleUnboxInteraction() {
+            if (isOpened) return;
+            initAudioContext();
+
+            // Special 2-step feel for Birthday Cake: Blow candle first!
+            if (state.giftType === 'cake' && !candleBlown) {
+                candleBlown = true;
+                playBlowSound();
+                document.getElementById('receiverGiftVisual').innerHTML = getInteractiveGraphicHTML('cake', true);
+                document.getElementById('unboxInstructionText').textContent = 'ฟู่~ เป่าเทียนแล้ว! กำลังเปิดคำอวยพร...';
+                
+                setTimeout(() => {
+                    completeUnboxReveal();
+                }, 1150);
+                return;
+            }
+
+            // Box or Envelope opens immediately with lid/flap animation
+            isOpened = true;
+            playPopSound();
+            document.getElementById('interactiveTarget').classList.add('opened');
+
+            setTimeout(() => {
+                completeUnboxReveal();
+            }, 650);
+        }
+
+        function completeUnboxReveal() {
+            isOpened = true;
+            document.getElementById('unboxStage').classList.add('hidden');
+            document.getElementById('cardRevealStage').classList.remove('hidden');
+
+            document.getElementById('cardRecipientTitle').textContent = `สุขสันต์วันเกิดนะ ${state.recipient}!`;
+            document.getElementById('cardSenderSign').textContent = state.sender;
+
+            // Play Music Box Happy Birthday if enabled
+            if (state.effects.music && soundEnabled) {
+                playHappyBirthdayMelody();
+            }
+
+            // Fire all selected visual effects
+            triggerCelebrationEffects();
+
+            // Animate message text line-by-line / typewriter
+            animateCardMessage(state.message);
+        }
+
+        function animateCardMessage(fullText) {
+            const container = document.getElementById('cardMessageBody');
+            container.textContent = '';
+            const chars = Array.from(fullText);
+            let idx = 0;
+
+            function step() {
+                if (idx < chars.length) {
+                    container.textContent += chars[idx];
+                    idx++;
+                    setTimeout(step, 28);
+                }
+            }
+            step();
+        }
+
+        /* =========================================================================
+           6. WEB AUDIO API SYNTHESIZER (Happy Birthday Music Box & SFX)
+           ========================================================================= */
+        let audioCtx = null;
+        let melodyTimers = [];
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) {
+                    audioCtx = new AudioContextClass();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            const label = document.getElementById('soundLabel');
+
+            if (soundEnabled) {
+                icon.className = 'fa-solid fa-volume-high text-pink-500';
+                label.textContent = 'เสียงเปิดอยู่';
+                initAudioContext();
+                if (isReceiverMode && isOpened && state.effects.music) {
+                    playHappyBirthdayMelody();
+                }
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark opacity-60';
+                label.textContent = 'ปิดเสียง';
+                stopMusicBox();
+            }
+        }
+
+        function stopMusicBox() {
+            melodyTimers.forEach(t => clearTimeout(t));
+            melodyTimers = [];
+        }
+
+        function playMusicBoxNote(freq, startTime, duration) {
+            if (!audioCtx || !soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            // Bell-like music box timbre
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, startTime);
+
+            gain.gain.setValueAtTime(0.001, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.22, startTime + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 1.4);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start(startTime);
+            osc.stop(startTime + duration * 1.45);
+        }
+
+        function playHappyBirthdayMelody() {
+            stopMusicBox();
+            initAudioContext();
+            if (!audioCtx || !soundEnabled) return;
+
+            // Frequencies (Hz) in C Major
+            const notes = {
+                G4: 392.00, A4: 440.00, B4: 493.88,
+                C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99
+            };
+
+            const song = [
+                { f: notes.G4, d: 0.35 }, { f: notes.G4, d: 0.25 }, { f: notes.A4, d: 0.6 }, { f: notes.G4, d: 0.6 }, { f: notes.C5, d: 0.6 }, { f: notes.B4, d: 1.1 },
+                { f: notes.G4, d: 0.35 }, { f: notes.G4, d: 0.25 }, { f: notes.A4, d: 0.6 }, { f: notes.G4, d: 0.6 }, { f: notes.D5, d: 0.6 }, { f: notes.C5, d: 1.1 },
+                { f: notes.G4, d: 0.35 }, { f: notes.G4, d: 0.25 }, { f: notes.G5, d: 0.6 }, { f: notes.E5, d: 0.6 }, { f: notes.C5, d: 0.6 }, { f: notes.B4, d: 0.6 }, { f: notes.A4, d: 1.1 },
+                { f: notes.F5, d: 0.35 }, { f: notes.F5, d: 0.25 }, { f: notes.E5, d: 0.6 }, { f: notes.C5, d: 0.6 }, { f: notes.D5, d: 0.6 }, { f: notes.C5, d: 1.3 }
+            ];
+
+            let offset = 0.1;
+            const now = audioCtx.currentTime;
+            song.forEach(note => {
+                playMusicBoxNote(note.f, now + offset, note.d);
+                offset += note.d * 0.92;
+            });
+        }
+
+        function playPopSound() {
+            if (!audioCtx || !soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(620, audioCtx.currentTime + 0.12);
+            gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.14);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.15);
+        }
+
+        function playBlowSound() {
+            if (!audioCtx || !soundEnabled) return;
+            const bufferSize = audioCtx.sampleRate * 0.45;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.sin((i / bufferSize) * Math.PI);
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 550;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.28, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        /* =========================================================================
+           7. HTML5 CANVAS PARTICLE ENGINE (Confetti, Fireworks, Balloons, Sparkles)
+           ========================================================================= */
+        const canvas = document.getElementById('fxCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        const balloons = [];
+        const fireworks = [];
+        const sparkles = [];
+
+        const palette = ['#f43f5e', '#ec4899', '#a855f7', '#3b82f6', '#10b981', '#f59e0b', '#fbbf24', '#38bdf8'];
+
+        function triggerCelebrationEffects() {
+            if (state.effects.confetti) spawnConfetti(140);
+            if (state.effects.fireworks) {
+                for (let i = 0; i < 6; i++) {
+                    setTimeout(() => launchFirework(), i * 420);
+                }
+            }
+            if (state.effects.balloons) spawnBalloons(14);
+            if (state.effects.sparkles) spawnAmbientSparkles(45);
+        }
+
+        function spawnConfetti(count) {
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: width * 0.5 + (Math.random() - 0.5) * 180,
+                    y: height * 0.45,
+                    vx: (Math.random() - 0.5) * 16,
+                    vy: (Math.random() - 1.1) * 16 - 3,
+                    size: Math.random() * 8 + 5,
+                    color: palette[Math.floor(Math.random() * palette.length)],
+                    rotation: Math.random() * 360,
+                    rotSpeed: (Math.random() - 0.5) * 12,
+                    gravity: 0.28,
+                    drag: 0.985,
+                    life: 1.0
+                });
+            }
+        }
+
+        function launchFirework() {
+            fireworks.push({
+                x: width * (0.15 + Math.random() * 0.7),
+                y: height,
+                targetY: height * (0.15 + Math.random() * 0.35),
+                vy: -(9 + Math.random() * 4),
+                color: palette[Math.floor(Math.random() * palette.length)],
+                exploded: false
+            });
+        }
+
+        function explodeFirework(fw) {
+            const count = 48;
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * i) / count;
+                const speed = 2 + Math.random() * 5.5;
+                particles.push({
+                    x: fw.x,
+                    y: fw.y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: 4,
+                    color: fw.color,
+                    rotation: 0,
+                    rotSpeed: 0,
+                    gravity: 0.08,
+                    drag: 0.96,
+                    life: 1.0,
+                    isSpark: true
+                });
+            }
+        }
+
+        function spawnBalloons(count) {
+            for (let i = 0; i < count; i++) {
+                balloons.push({
+                    x: width * (0.08 + Math.random() * 0.84),
+                    y: height + 60 + Math.random() * 250,
+                    vy: -(1.4 + Math.random() * 1.8),
+                    wobbleOffset: Math.random() * Math.PI * 2,
+                    radius: 24 + Math.random() * 10,
+                    color: palette[Math.floor(Math.random() * palette.length)]
+                });
+            }
+            updateCanvasPointerEvents();
+        }
+
+        function spawnAmbientSparkles(count) {
+            for (let i = 0; i < count; i++) {
+                sparkles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: -0.3 - Math.random() * 0.8,
+                    size: Math.random() * 3.5 + 1.5,
+                    alpha: Math.random(),
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        // Allow clicking/tapping balloons to pop them!
+        function updateCanvasPointerEvents() {
+            canvas.style.pointerEvents = balloons.length > 0 ? 'auto' : 'none';
+        }
+
+        function handleCanvasTap(clientX, clientY) {
+            for (let i = balloons.length - 1; i >= 0; i--) {
+                const b = balloons[i];
+                const dx = clientX - b.x;
+                const dy = clientY - b.y;
+                if (Math.hypot(dx, dy) <= b.radius + 12) {
+                    // Pop balloon!
+                    playPopSound();
+                    for (let p = 0; p < 16; p++) {
+                        const ang = (Math.PI * 2 * p) / 16;
+                        particles.push({
+                            x: b.x,
+                            y: b.y,
+                            vx: Math.cos(ang) * (3 + Math.random() * 4),
+                            vy: Math.sin(ang) * (3 + Math.random() * 4),
+                            size: 5,
+                            color: b.color,
+                            rotation: 0,
+                            rotSpeed: 5,
+                            gravity: 0.15,
+                            drag: 0.95,
+                            life: 0.85
+                        });
+                    }
+                    balloons.splice(i, 1);
+                    updateCanvasPointerEvents();
+                    break;
+                }
+            }
+        }
+
+        canvas.addEventListener('click', (e) => handleCanvasTap(e.clientX, e.clientY));
+        canvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                handleCanvasTap(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+
+        function animationLoop() {
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. Update & Draw Sparkles
+            for (let i = sparkles.length - 1; i >= 0; i--) {
+                const s = sparkles[i];
+                s.x += s.vx;
+                s.y += s.vy;
+                s.phase += 0.06;
+                const opacity = 0.3 + 0.7 * Math.abs(Math.sin(s.phase));
+
+                ctx.save();
+                ctx.fillStyle = `rgba(255, 248, 220, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                if (s.y < -10) s.y = height + 10;
+            }
+
+            // 2. Update & Draw Fireworks
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                const fw = fireworks[i];
+                fw.y += fw.vy;
+                fw.vy *= 0.985;
+
+                ctx.save();
+                ctx.fillStyle = fw.color;
+                ctx.beginPath();
+                ctx.arc(fw.x, fw.y, 3.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                if (fw.y <= fw.targetY || fw.vy > -1.5) {
+                    explodeFirework(fw);
+                    fireworks.splice(i, 1);
+                }
+            }
+
+            // 3. Update & Draw Confetti & Firework Sparks
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.vx *= p.drag;
+                p.vy = p.vy * p.drag + p.gravity;
+                p.x += p.vx;
+                p.y += p.vy;
+                p.rotation += p.rotSpeed;
+                if (p.isSpark) p.life -= 0.018;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate((p.rotation * Math.PI) / 180);
+                ctx.globalAlpha = Math.max(0, p.life);
+                ctx.fillStyle = p.color;
+
+                if (p.isSpark) {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size * 0.7, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.65);
+                }
+                ctx.restore();
+
+                if (p.y > height + 30 || p.life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            // 4. Update & Draw Interactive Balloons
+            for (let i = balloons.length - 1; i >= 0; i--) {
+                const b = balloons[i];
+                b.y += b.vy;
+                b.wobbleOffset += 0.03;
+                const drawX = b.x + Math.sin(b.wobbleOffset) * 14;
+
+                ctx.save();
+                // Balloon String
+                ctx.strokeStyle = 'rgba(150, 150, 150, 0.6)';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(drawX, b.y + b.radius * 1.15);
+                ctx.quadraticCurveTo(drawX + 8, b.y + b.radius + 25, drawX - 4, b.y + b.radius + 48);
+                ctx.stroke();
+
+                // Balloon Body
+                ctx.fillStyle = b.color;
+                ctx.beginPath();
+                ctx.ellipse(drawX, b.y, b.radius * 0.92, b.radius * 1.15, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Gloss Highlight
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+                ctx.beginPath();
+                ctx.ellipse(drawX - b.radius * 0.3, b.y - b.radius * 0.35, b.radius * 0.2, b.radius * 0.38, -0.4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                if (b.y < -120) {
+                    balloons.splice(i, 1);
+                    updateCanvasPointerEvents();
+                }
+            }
+
+            requestAnimationFrame(animationLoop);
+        }
+
+        /* =========================================================================
+           8. TOAST NOTIFICATION HELPER
+           ========================================================================= */
+        function showToast(msg) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'glass-panel px-5 py-3 rounded-2xl text-xs sm:text-sm font-semibold shadow-xl flex items-center gap-2 transition-all duration-300 transform translate-y-2 opacity-0';
+            toast.innerHTML = `<span>${msg}</span>`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 2800);
+        }
+
+        /* =========================================================================
+           9. INITIALIZATION ON WINDOW LOAD
+           ========================================================================= */
+        window.onload = function () {
+            // Start Canvas Loop
+            animationLoop();
+
+            // Check if URL has ?data=... parameter for Receiver Mode
+            const urlParams = new URLSearchParams(window.location.search);
+            const dataToken = urlParams.get('data');
+
+            if (dataToken) {
+                const decoded = decodePayload(dataToken);
+                if (decoded) {
+                    state.recipient = decoded.r || 'คนพิเศษ';
+                    state.sender = decoded.s || 'คนที่หวังดี';
+                    state.giftType = decoded.g || 'box';
+                    state.theme = decoded.t || 'pastel';
+                    state.message = decoded.m || state.message;
+                    if (Array.isArray(decoded.e)) {
+                        state.effects.confetti = !!decoded.e[0];
+                        state.effects.fireworks = !!decoded.e[1];
+                        state.effects.balloons = !!decoded.e[2];
+                        state.effects.sparkles = !!decoded.e[3];
+                        state.effects.music = !!decoded.e[4];
+                    }
+                    enterReceiverMode(false);
+                    return;
+                }
+            }
+
+            // Default: Creator Mode
+            selectTheme('pastel');
+            selectGiftType('box');
+            renderCreatorPreview();
+        };
+    </script>
+</body>
+</html>
